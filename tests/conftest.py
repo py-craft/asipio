@@ -1,9 +1,9 @@
-import aiosip
+import asipio
 import pytest
 import asyncio
 import itertools
 
-pytest_plugins = ['aiosip.pytest_plugin']
+pytest_plugins = ['asipio.pytest_plugin']
 
 
 class TestServer:
@@ -13,16 +13,14 @@ class TestServer:
         self.app = app
         self._loop = loop
 
-    @asyncio.coroutine
-    def start_server(self, protocol, *, loop=None):
+    async def start_server(self, protocol, *, loop=None):
         self.handler = self.app.run(
             protocol=protocol,
             local_addr=(self.sip_config['server_host'], self.sip_config['server_port'])
         )
-        return self.handler
+        return await self.handler
 
-    @asyncio.coroutine
-    def close(self):
+    async def close(self):
         pass
 
     @property
@@ -49,50 +47,46 @@ class TestProxy(TestServer):
 @pytest.fixture(params=['udp', 'tcp'])
 def protocol(request):
     if request.param == 'udp':
-        return aiosip.UDP
+        return asipio.UDP
     elif request.param == 'tcp':
-        return aiosip.TCP
+        return asipio.TCP
     pytest.fail('Test requested unknown protocol: {}'.format(request.param))
 
 
-@pytest.yield_fixture
+@pytest.fixture
 def test_server(protocol, loop):
     servers = []
 
-    @asyncio.coroutine
-    def go(handler, **kwargs):
+    async def go(handler, **kwargs):
         server = TestServer(handler)
-        yield from server.start_server(protocol, loop=loop, **kwargs)
+        await server.start_server(protocol, loop=loop, **kwargs)
         servers.append(server)
         return server
 
     yield go
 
-    @asyncio.coroutine
-    def finalize():
+    async def finalize():
         while servers:
-            yield from servers.pop().close()
+            await servers.pop().close()
 
     loop.run_until_complete(finalize())
 
 
-@pytest.yield_fixture
-def test_proxy(protocol, loop):
+@pytest.fixture
+async def test_proxy(protocol, loop):
     servers = []
 
-    @asyncio.coroutine
-    def go(handler, **kwargs):
+    async def go(handler, **kwargs):
         server = TestProxy(handler)
-        yield from server.start_server(protocol, loop=loop, **kwargs)
+        await server.start_server(protocol, loop=loop, **kwargs)
         servers.append(server)
         return server
 
     yield go
 
-    @asyncio.coroutine
-    def finalize():
+    async def finalize():
         while servers:
-            yield from servers.pop().close()
+            await servers.pop().close()
 
     loop.run_until_complete(finalize())
 
