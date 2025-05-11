@@ -197,6 +197,7 @@ class Application(MutableMapping):
                 return
 
             t = asyncio.ensure_future(self._call_route(peer, route, msg))
+            # TODO Use a weakref here
             self._tasks.append(t)
             await t
         except asyncio.CancelledError:
@@ -215,8 +216,7 @@ class Application(MutableMapping):
         # for task in self._tasks:
         #     task.cancel()
 
-    @asyncio.coroutine
-    def finish(self):
+    async def finish(self):
         callbacks = self._finish_callbacks
         self._finish_callbacks = []
 
@@ -225,7 +225,7 @@ class Application(MutableMapping):
                 res = cb(self, *args, **kwargs)
                 if (asyncio.iscoroutine(res) or
                         isinstance(res, asyncio.Future)):
-                    yield from res
+                    await res
             except Exception as exc:
                 self.loop.call_exception_handler({
                     'message': "Error in finish callback",
