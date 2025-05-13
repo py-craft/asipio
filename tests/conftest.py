@@ -73,7 +73,7 @@ def test_server(protocol, loop):
 
 
 @pytest.fixture
-async def test_proxy(protocol, loop):
+def test_proxy(protocol, loop):
     servers = []
 
     async def go(handler, **kwargs):
