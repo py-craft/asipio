@@ -1,0 +1,38 @@
+[project]
+name = "ASIPIO"
+version = "0.1.0"
+description = ""
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "multidict>=2.0",
+    "pyquery",
+    "aiodns",
+    "websockets",
+    "async-timeout",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.1.0",
+    "pre-commit-hooks>=5.0.0",
+    "pytest>=8.3.4",
+    "pytest-mypy>=0.10.3",
+    "pytest-asyncio>=0.26.0",
+    "ruff>=0.9.5",
+]
+
+[tool.pytest.ini_options]
+addopts = ["--mypy"]
+filterwarnings = ["ignore::DeprecationWarning"]
+pythonpath = [
+  ".",
+]
+
+[tool.mypy]
+warn_return_any = true
+warn_unused_configs = true
+no_namespace_packages = true
+ignore_missing_imports = true
+strict = true
