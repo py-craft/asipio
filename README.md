@@ -13,3 +13,6 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 Initially, I wanted to name the library asyncsip, but unfortunately, that name was already taken by another project. So, I decided to go with asipio, which is a combination of 'asynchronous', 'SIP' (Session Initiation Protocol), and 'IO' (Input/Output). The name is unique and reflects the purpose of the library; it also sounds a bit like asyncio, which is a nice bonus.
 
+## Contributing
+
+Please read the [CONTRIBUTING](CONTRIBUTING.md) file for details on how to contribute to this project. We welcome and appreciate all contributions, whether it's reporting a bug, suggesting a feature, improving documentation, or submitting code.
