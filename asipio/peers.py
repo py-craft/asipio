@@ -316,7 +316,8 @@ class UDPConnector(BaseConnector):
             transport, proto = await self._loop.create_datagram_endpoint(
                 lambda: UDP(app=self._app, loop=self._loop),
                 local_addr=local_addr,
-                remote_addr=peer_addr
+                remote_addr=peer_addr,
+                reuse_port=True,
             )
             local_addr = transport.get_extra_info('sockname')
             self._protocols[(peer_addr, local_addr)] = proto
@@ -334,7 +335,8 @@ class UDPConnector(BaseConnector):
             transport, proto = await self._loop.create_datagram_endpoint(
                 lambda: UDP(app=self._app, loop=self._loop),
                 sock=sock,
-                local_addr=local_addr
+                local_addr=local_addr,
+                reuse_port=True,
             )
             proto_addr = proto.transport.get_extra_info('sockname')
             if sock:

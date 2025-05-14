@@ -22,14 +22,16 @@ dev = [
     "pytest-asyncio>=0.26.0",
     "ruff>=0.9.5",
     "tox>=4.26.0",
+    "tox-uv>=1.25.0",
 ]
 
 [tool.pytest.ini_options]
-addopts = ["--mypy"]
-filterwarnings = ["ignore::DeprecationWarning"]
+# addopts = ["--mypy"]
 pythonpath = [
   ".",
 ]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 
 [tool.mypy]
 warn_return_any = true
@@ -37,3 +39,12 @@ warn_unused_configs = true
 no_namespace_packages = true
 ignore_missing_imports = true
 strict = true
+
+[tool.tox]
+requires = ["tox>=4.19"]
+envlist = ["py311", "py312", "py313"]
+
+
+[tool.tox.env_run_base]
+description = "Run test under {base_python}"
+commands = [["pytest"]]
