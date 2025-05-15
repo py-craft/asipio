@@ -24,7 +24,7 @@
 
 ## Name Rationale
 
-The original name idea was `asyncsip`, but that name was already taken. Thus, the library was named **asipio**, a combination of:
+The initial name idea was `asyncsip`, but that name was already taken. Thus, the library was named **asipio**, a combination of:
 - **a**synchronous
 - **SIP** (Session Initiation Protocol)
 - **IO** (Input/Output)
