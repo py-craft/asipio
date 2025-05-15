@@ -183,6 +183,11 @@ class DialogBase:
         # Should not be necessary once dialog are correctly tracked
         try:
             del self.app._dialogs[self.dialog_id]
+            del self.app._dialogs[
+                    frozenset((self.original_msg.to_details['params'].get('tag'),
+                               None,
+                               self.call_id))
+            ]
         except KeyError as e:
             pass
 
