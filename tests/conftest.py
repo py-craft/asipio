@@ -1,9 +1,9 @@
-import asipio
+import aiovoip
 import pytest
 import asyncio
 import itertools
 
-pytest_plugins = ['asipio.pytest_plugin']
+pytest_plugins = ['aiovoip.pytest_plugin']
 
 
 class TestServer:
@@ -47,9 +47,9 @@ class TestProxy(TestServer):
 @pytest.fixture(params=['udp', 'tcp'])
 def protocol(request):
     if request.param == 'udp':
-        return asipio.UDP
+        return aiovoip.UDP
     elif request.param == 'tcp':
-        return asipio.TCP
+        return aiovoip.TCP
     pytest.fail('Test requested unknown protocol: {}'.format(request.param))
 
 

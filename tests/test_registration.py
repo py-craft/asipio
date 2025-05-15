@@ -1,4 +1,4 @@
-from asipio import auth
+from aiovoip import auth
 
 
 AUTH = {

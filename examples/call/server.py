@@ -2,7 +2,7 @@ import argparse
 import asyncio
 import logging
 
-import asipio
+import aiovoip
 
 sip_config = {
     'srv_host': 'xxxxxx',
@@ -30,7 +30,7 @@ async def on_invite(request, message):
             break
 
 
-class Dialplan(asipio.BaseDialplan):
+class Dialplan(aiovoip.BaseDialplan):
 
     async def resolve(self, *args, **kwargs):
         await super().resolve(*args, **kwargs)
@@ -63,14 +63,14 @@ def main():
     args = parser.parse_args()
 
     loop = asyncio.get_event_loop()
-    app = asipio.Application(loop=loop, dialplan=Dialplan())
+    app = aiovoip.Application(loop=loop, dialplan=Dialplan())
 
     if args.protocol == 'udp':
-        start(app, asipio.UDP)
+        start(app, aiovoip.UDP)
     elif args.protocol == 'tcp':
-        start(app, asipio.TCP)
+        start(app, aiovoip.TCP)
     elif args.protocol == 'ws':
-        start(app, asipio.WS)
+        start(app, aiovoip.WS)
     else:
         raise RuntimeError("Unsupported protocol: {}".format(args.protocol))
 

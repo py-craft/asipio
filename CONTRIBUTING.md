@@ -1,16 +1,16 @@
 # Contributing
 
-We welcome and appreciate all contributions to asipio — no matter how big or small. Whether you’re reporting a bug, suggesting a feature, improving documentation, or submitting code, your effort makes a difference.
+We welcome and appreciate all contributions to aiovoip — no matter how big or small. Whether you’re reporting a bug, suggesting a feature, improving documentation, or submitting code, your effort makes a difference.
 
 ## How You Can Help
 
 ### Report Bugs
 
-Found a bug? Let us know by opening an [issue](https://github.com/vardanaloyan/asipio/issues). Include as much context as possible so we can investigate quickly.
+Found a bug? Let us know by opening an [issue](https://github.com/vardanaloyan/aiovoip/issues). Include as much context as possible so we can investigate quickly.
 
 ### Suggest Features
 
-Have an idea to improve asipio? File a feature request or discuss it in an issue.
+Have an idea to improve aiovoip? File a feature request or discuss it in an issue.
 
 ### Improve Documentation
 
@@ -35,7 +35,7 @@ Want to get hands-on? Fork the repo, clone it locally, make your changes, and su
 
 ## Get Started!
 
-asipio is using [UV](https://docs.astral.sh/uv/) for package management.
+aiovoip is using [UV](https://docs.astral.sh/uv/) for package management.
 
 Assuming you have uv installed, you can get started with the following commands:
 

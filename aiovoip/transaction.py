@@ -1,7 +1,7 @@
 import asyncio
 import logging
 
-from asipio.auth import Auth
+from aiovoip.auth import Auth
 from .exceptions import AuthentificationFailed
 
 

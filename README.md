@@ -1,10 +1,10 @@
-# asipio
+# aiovoip
 
 ![Python 3.11](https://img.shields.io/badge/python-3.11-blue?logo=python)
 ![Python 3.12](https://img.shields.io/badge/python-3.12-blue?logo=python)
 ![Python 3.13](https://img.shields.io/badge/python-3.13-blue?logo=python)
 
-**asipio** is a modern, asynchronous SIP (Session Initiation Protocol) library for Python. It was forked from the deprecated [aiosip](https://github.com/Eyepea/aiosip) project, with the goal of revitalizing and maintaining a clean, bug-fixed, and feature-rich codebase.
+**aiovoip** is a modern, asynchronous SIP (Session Initiation Protocol) library for Python. It was forked from the deprecated [aiosip](https://github.com/Eyepea/aiosip) project, with the goal of revitalizing and maintaining a clean, bug-fixed, and feature-rich codebase and in the future to implement other protocols in VoIP field.
 
 > ⚠️ **Warning:** This library is in an early stage of development. Use at your own risk.
 
@@ -17,19 +17,11 @@
 
 ## Python Compatibility
 
-`asipio` is tested and works with:
+`aiovoip` is tested and works with:
 - Python **3.11**
 - Python **3.12**
 - Python **3.13**
 
-## Name Rationale
-
-The initial name idea was `asyncsip`, but that name was already taken. Thus, the library was named **asipio**, a combination of:
-- **a**synchronous
-- **SIP** (Session Initiation Protocol)
-- **IO** (Input/Output)
-
-The name is unique, descriptive, and it also sounds a bit like `asyncio`, which is a nice bonus.
 
 ## License
 
