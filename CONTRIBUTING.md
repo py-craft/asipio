@@ -6,7 +6,7 @@ We welcome and appreciate all contributions to aiovoip — no matter how big or 
 
 ### Report Bugs
 
-Found a bug? Let us know by opening an [issue](https://github.com/vardanaloyan/aiovoip/issues). Include as much context as possible so we can investigate quickly.
+Found a bug? Let us know by opening an [issue](https://github.com/py-craft/aiovoip/issues). Include as much context as possible so we can investigate quickly.
 
 ### Suggest Features
 
