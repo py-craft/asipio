@@ -22,6 +22,13 @@
 - Python **3.12**
 - Python **3.13**
 
+## Installation
+
+You can install `aiovoip` using pip:
+
+```bash
+pip install aiovoip
+```
 
 ## License
 
