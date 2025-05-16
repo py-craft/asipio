@@ -5,6 +5,7 @@ description = ""
 readme = "README.md"
 requires-python = ">=3.11"
 
+
 dependencies = [
     "multidict>=2.0",
     "pyquery",
@@ -24,6 +25,11 @@ dev = [
     "tox>=4.26.0",
     "tox-uv>=1.25.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/py-craft/aiovoip"
+Repository = "https://github.com/py-craft/aiovoip"
+Issues = "https://github.com/py-craft/aiovoip/issues"
 
 [tool.pytest.ini_options]
 # addopts = ["--mypy"]
