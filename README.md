@@ -4,7 +4,10 @@
 ![Python 3.12](https://img.shields.io/badge/python-3.12-blue?logo=python)
 ![Python 3.13](https://img.shields.io/badge/python-3.13-blue?logo=python)
 
-**aiovoip** is a modern, asynchronous SIP (Session Initiation Protocol) library for Python. It was forked from the deprecated [aiosip](https://github.com/Eyepea/aiosip) project, with the goal of revitalizing and maintaining a clean, bug-fixed, and feature-rich codebase and in the future to implement other protocols in VoIP field.
+**aiovoip** is a modern, asynchronous SIP (Session Initiation Protocol) library for Python. It was forked from the deprecated [aiosip](https://github.com/Eyepea/aiosip) project (eaf8504), with the goal of revitalizing and maintaining a clean, bug-fixed, and feature-rich codebase and in the future to implement other protocols in VoIP field.
+
+The uniqueness of this library lies in its fully asynchronous design, allowing for efficient handling of SIP messages and calls without blocking the main thread. This makes it ideal for applications that require real-time communication, but at the same time, able to handle hundreds of thousands of SIP messages per second, without asynchronous behavior this would be challenging for Python to achieve.
+
 
 > ⚠️ **Warning:** This library is in an early stage of development. Use at your own risk.
 
