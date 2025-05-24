@@ -243,7 +243,7 @@ async def test_cancel(test_server, protocol, loop, from_details, to_details, clo
         remote_addr=(server.sip_config['server_host'], server.sip_config['server_port'])
     )
 
-    pending_subscription = asyncio.ensure_future(peer.subscribe(
+    pending_subscription = asyncio.create_task(peer.subscribe(
         from_details=aiovoip.Contact.from_header(from_details),
         to_details=aiovoip.Contact.from_header(to_details),
     ))

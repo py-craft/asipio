@@ -26,7 +26,7 @@ async def on_subscribe(request, message):
         return
 
     print('Subscription started!')
-    task = asyncio.ensure_future(notify(dialog))
+    task = asyncio.create_task(notify(dialog))
     async for message in dialog:
         expires = int(message.headers['Expires'])
 

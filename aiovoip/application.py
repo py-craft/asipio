@@ -193,7 +193,7 @@ class Application(MutableMapping):
                 await reply(msg, status_code=501)
                 return
 
-            t = asyncio.ensure_future(self._call_route(peer, route, msg))
+            t = asyncio.create_task(self._call_route(peer, route, msg))
             # TODO Use a weakref here
             self._tasks.append(t)
             await t

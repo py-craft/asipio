@@ -83,7 +83,7 @@ class BaseTransaction:
         )
 
         self.dialog.transactions[self.original_msg.method][self.original_msg.cseq] = self
-        self.authentification = asyncio.ensure_future(self._timer())
+        self.authentification = asyncio.create_task(self._timer())
 
     def _handle_proxy_authenticate(self, msg):
         self._handle_proxy_authenticate(msg)
@@ -113,7 +113,7 @@ class FutureTransaction(BaseTransaction):
         self._future = self.loop.create_future()
 
     async def start(self):
-        self.retransmission = asyncio.ensure_future(self._timer())
+        self.retransmission = asyncio.create_task(self._timer())
         return await self._future
 
     def _incoming(self, msg):

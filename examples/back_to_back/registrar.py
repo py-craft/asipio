@@ -76,7 +76,7 @@ async def on_subscribe(request, message):
     task = None
     for addr in locations[user]:
         peer = await dialog.app.connect(addr)
-        task = asyncio.ensure_future(reader(peer))
+        task = asyncio.create_task(reader(peer))
         break  # Only looking for first entry for now
 
     print("Subscription forwarding started!")
