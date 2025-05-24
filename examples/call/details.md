@@ -47,10 +47,10 @@ sequenceDiagram
     note over Selector: Incoming UDP (INVITE)
     Selector ->> Protocol: _read_ready()
     Protocol ->> App: datagram_received()
-    App ->> DispatchTask1: ensure_future(_dispatch)
+    App ->> DispatchTask1: create_task(_dispatch)
     DispatchTask1 ->> DispatchTask1: _dispatch()
     DispatchTask1 ->> DispatchTask1: await _run_dialplan()
-    DispatchTask1 ->> CallRouteTask: ensure_future(_call_route)
+    DispatchTask1 ->> CallRouteTask: create_task(_call_route)
     CallRouteTask ->> CallRouteTask: _call_route()
     CallRouteTask ->> CallRouteTask: on_invite()
     CallRouteTask ->> App: send 200 OK
@@ -59,13 +59,13 @@ sequenceDiagram
     note over Selector: Client sends BYE
     Selector ->> Protocol: _read_ready()
     Protocol ->> App: datagram_received()
-    App ->> DispatchTask2: ensure_future(_dispatch)
+    App ->> DispatchTask2: create_task(_dispatch)
     DispatchTask2 ->> DispatchTask2: _dispatch()
     DispatchTask2 ->> Dialog: await dialog.receive_message()
     Dialog ->> Dialog: _receive_request()
     Dialog ->> Dialog: _maybe_close()
     Dialog ->> Dialog: close_later()
-    Dialog ->> ClosureTask: ensure_future(closure())
+    Dialog ->> ClosureTask: create_task(closure())
 
     ClosureTask ->> ClosureTask: await sleep(dialog_closing_delay)
     ClosureTask ->> ClosureTask: close()

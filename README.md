@@ -33,6 +33,9 @@ You can install `aiovoip` using pip:
 pip install aiovoip
 ```
 
+Refer to the [examples](./examples/) for guidance on usage.
+
+
 ## License
 
 This project is licensed under the **Apache License 2.0**. See the [LICENSE](LICENSE) file for details.
