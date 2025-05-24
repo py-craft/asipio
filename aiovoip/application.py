@@ -21,6 +21,7 @@ from .message import Response
 from .contact import Contact
 from .via import Via
 
+from . import utils
 
 LOG = logging.getLogger(__name__)
 
@@ -38,7 +39,7 @@ class Application(MutableMapping):
                  middleware=(),
                  defaults=None,
                  debug=False,
-                 dialplan=BaseDialplan(),
+                 dialplan=None,
                  dns_resolver=None,
                  ):
 
@@ -61,7 +62,7 @@ class Application(MutableMapping):
         self._middleware = middleware
         self._tasks = list()
 
-        self.dialplan = dialplan
+        self.dialplan = dialplan or BaseDialplan()
         self.loop = loop
 
     @property
@@ -134,14 +135,14 @@ class Application(MutableMapping):
         call_id = msg.headers['Call-ID']
         dialog = None
 
-        # First incoming request of dialogs do not yet have a tag in to headers
+        # First incoming request of dialogs do not yet have a tag in 'to' headers
         if 'tag' in msg.to_details['params']:
             dialog = self._dialogs.get(frozenset((msg.to_details['params']['tag'],
                                                   msg.from_details['params']['tag'],
                                                   call_id)))
 
-        # First response of dialogs have a tag in the to header but the dialog is not
-        # yet aware of it. Try to match only with the from header tag
+        # First response of dialogs have a tag in the 'to' header but the dialog is not
+        # yet aware of it. Try to match only with the 'from' header tag
         if dialog is None:
             dialog = self._dialogs.get(frozenset((None, msg.from_details['params']['tag'], call_id)))
 
@@ -149,9 +150,8 @@ class Application(MutableMapping):
             await dialog.receive_message(msg)
             return
 
-        # If we got an ACK, but nowhere to deliver it, drop it. If we
-        # got a response without an associated message (likely a stale
-        # retransmission, drop it)
+        # If we got a response without an associated message (likely a stale retransmission, drop it)
+        # If we got an ACK, but nowhere to deliver it, drop it. 
         if isinstance(msg, Response) or msg.method == 'ACK':
             LOG.debug('Discarding incoming message: %s', msg)
             return
@@ -162,13 +162,10 @@ class Application(MutableMapping):
         call_id = msg.headers['Call-ID']
         via_header = msg.headers['Via']
 
-        # TODO: isn't multidict supposed to only return the first header?
-        if isinstance(via_header, list):
-            via_header = via_header[0]
-
         connector = self._connectors[type(protocol)]
         via = Via.from_header(via_header)
         via_addr = via['host'], int(via['port'])
+        # get_peer handles connection part, either creates or finds existing one
         peer = await connector.get_peer(protocol, via_addr)
 
         async def reply(*args, **kwargs):

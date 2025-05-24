@@ -9,7 +9,7 @@
 The uniqueness of this library lies in its fully asynchronous design, allowing for efficient handling of SIP messages and calls without blocking the main thread. This makes it ideal for applications that require real-time communication, but at the same time, able to handle hundreds of thousands of SIP messages per second, without asynchronous behavior this would be challenging for Python to achieve.
 
 
-> ⚠️ **Warning:** This library is in an early stage of development. Use at your own risk.
+> ⚠️ **Warning:** This library is in an early stage of development. Use at your own risk, and always pick the specific version of the library.
 
 ## Features
 
