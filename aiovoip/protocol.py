@@ -39,7 +39,7 @@ class UDP(asyncio.DatagramProtocol):
         msg = message.Message.from_raw_headers(headers)
         msg._raw_payload = data
         LOG.log(5, 'Received from "%s" via UDP: "%s"', addr, msg)
-        asyncio.ensure_future(self.app._dispatch(self, msg, addr))
+        asyncio.create_task(self.app._dispatch(self, msg, addr))
 
 
 class TCP(asyncio.Protocol):
@@ -82,7 +82,7 @@ class TCP(asyncio.Protocol):
             msg._raw_payload, self._data = self._data[:content_length], self._data[content_length:]
             # assert len(msg._raw_payload) == int(msg.headers['Content-Length'])
             LOG.log(5, 'Received via TCP: "%s"', msg)
-            asyncio.ensure_future(self.app._dispatch(self, msg, None))
+            asyncio.create_task(self.app._dispatch(self, msg, None))
 
 
 class WS:
@@ -97,10 +97,10 @@ class WS:
             self.via = 'WS'
         self.transport = self
         self.websocket = websocket
-        self.websocket_pump = asyncio.ensure_future(self.run())
+        self.websocket_pump = asyncio.create_task(self.run())
 
     def close(self):
-        asyncio.ensure_future(self.websocket.close())
+        asyncio.create_task(self.websocket.close())
 
     def get_extra_info(self, key):
         if key == 'sockname':
@@ -115,7 +115,7 @@ class WS:
             msg.headers['Via'][0] %= {'protocol': self.via}
 
         LOG.log(5, 'Sending via %s: "%s"', self.via, msg)
-        asyncio.ensure_future(self.websocket.send(msg.encode().decode('utf8')))
+        asyncio.create_task(self.websocket.send(msg.encode().decode('utf8')))
 
     async def run(self):
         while self.websocket.open:
@@ -129,7 +129,7 @@ class WS:
             msg = message.Message.from_raw_headers(headers)
             msg._raw_payload = data
             LOG.log(5, 'Received via %s: "%s"', self.via, msg)
-            asyncio.ensure_future(self.app._dispatch(self, msg, self.peer_addr))
+            asyncio.create_task(self.app._dispatch(self, msg, self.peer_addr))
 
         await self.websocket.close()
         self.app._connection_lost(self)
