@@ -3,7 +3,7 @@ import string
 import asyncio
 import logging
 import ipaddress
-
+import inspect
 
 LOG = logging.getLogger(__name__)
 
@@ -141,3 +141,16 @@ def _callback(f):
         pass
     except Exception as e:
         LOG.exception(e)
+
+def identify_caller():
+    # Get the current call stack, used for debugging purposes
+    stack = inspect.stack()
+    trackee = stack[1]
+    # The caller is usually at index 1 (0 = current function)
+    for st in stack[2:]:
+        caller_frame = st
+        caller_name = caller_frame.function
+        caller_filename = caller_frame.filename
+        caller_lineno = caller_frame.lineno
+
+        print(f"*****{trackee.function} - Called by: {caller_name} in {caller_filename}:{caller_lineno}")

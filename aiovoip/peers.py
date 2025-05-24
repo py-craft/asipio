@@ -129,7 +129,7 @@ class Peer:
 
         return await self.request('REGISTER', **kwargs)
 
-    async def invite(self, dialog_factory=InviteDialog, **kwargs):
+    async def invite(self, dialog_factory=InviteDialog, **kwargs) -> InviteDialog:
 
         dialog = self._create_dialog(dialog_factory=dialog_factory, method='INVITE', **kwargs)
         await dialog.start()

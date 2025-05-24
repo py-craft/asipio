@@ -9,7 +9,7 @@
 The uniqueness of this library lies in its fully asynchronous design, allowing for efficient handling of SIP messages and calls without blocking the main thread. This makes it ideal for applications that require real-time communication, but at the same time, able to handle hundreds of thousands of SIP messages per second, without asynchronous behavior this would be challenging for Python to achieve.
 
 
-> ⚠️ **Warning:** This library is in an early stage of development. Use at your own risk.
+> ⚠️ **Warning:** This library is in an early stage of development. Use at your own risk, and always pick the specific version of the library.
 
 ## Features
 
@@ -40,3 +40,8 @@ This project is licensed under the **Apache License 2.0**. See the [LICENSE](LIC
 ## Contributing
 
 We welcome and appreciate all contributions! Please read the [CONTRIBUTING](CONTRIBUTING.md) guide for information on how to get involved—whether you're reporting a bug, suggesting an improvement, enhancing documentation.
+
+
+## Sponsors
+
+<a href="https://codeff.nl" target="_blank" title="Codeff"><img src="https://www.codeff.nl/static/images/Og-Project.png" width="200"></a>

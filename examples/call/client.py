@@ -5,6 +5,7 @@ import logging
 import random
 
 import aiovoip
+import aiovoip.peers
 
 sip_config = {
     'srv_host': '127.0.0.1',
@@ -17,7 +18,7 @@ sip_config = {
 }
 
 
-async def run_call(peer, duration):
+async def run_call(peer: aiovoip.peers.Peer, duration: int):
     call = await peer.invite(
         from_details=aiovoip.Contact.from_header('sip:{}@{}:{}'.format(
             sip_config['user'], sip_config['local_host'],
@@ -30,13 +31,12 @@ async def run_call(peer, duration):
         async def reader():
             async for msg in call.wait_for_terminate():
                 print("CALL STATUS:", msg.status_code)
-
+    
             print("CALL ESTABLISHED")
-            await asyncio.sleep(5)
+            await asyncio.sleep(duration)
             print("GOING AWAY...")
 
-        with contextlib.suppress(asyncio.TimeoutError):
-            await asyncio.wait_for(reader(), timeout=duration)
+        await reader()
 
     print("CALL TERMINATED")
 
