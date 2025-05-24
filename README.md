@@ -40,3 +40,8 @@ This project is licensed under the **Apache License 2.0**. See the [LICENSE](LIC
 ## Contributing
 
 We welcome and appreciate all contributions! Please read the [CONTRIBUTING](CONTRIBUTING.md) guide for information on how to get involved—whether you're reporting a bug, suggesting an improvement, enhancing documentation.
+
+
+## Sponsors
+
+<a href="https://codeff.nl" target="_blank" title="Codeff"><img src="https://www.codeff.nl/static/images/Og-Project.png" width="200"></a>
