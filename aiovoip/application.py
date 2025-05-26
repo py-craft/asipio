@@ -7,7 +7,6 @@ import logging
 import aiodns
 from contextlib import suppress
 import traceback
-import gc
 
 __all__ = ['Application']
 
