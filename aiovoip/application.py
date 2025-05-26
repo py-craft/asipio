@@ -21,16 +21,44 @@ from .message import Response
 from .contact import Contact
 from .via import Via
 
-from . import utils
 
 LOG = logging.getLogger(__name__)
 
 DEFAULTS = {
     'user_agent': 'Python/{0[0]}.{0[1]}.{0[2]} aiosip/{1}'.format(sys.version_info, __version__),
     'override_contact_host': None,
-    'dialog_closing_delay': 30
+    'dialog_closing_delay': 10
 }
 
+class Request:
+    def __init__(self, app, peer, msg, call_id):
+        self.app = app
+        self.peer = peer
+        self.msg = msg
+        self.call_id = call_id
+        self.dialog = None
+
+    def _create_dialog(self, dialog_factory=Dialog, **kwargs):
+        if not self.dialog:
+            self.dialog = self.peer._create_dialog(
+                method=self.msg.method,
+                from_details=Contact.from_header(self.msg.headers['To']),
+                to_details=Contact.from_header(self.msg.headers['From']),
+                call_id=self.call_id,
+                inbound=True,
+                dialog_factory=dialog_factory,
+                **kwargs
+            )
+        return self.dialog
+
+    async def prepare(self, status_code, *args, **kwargs):
+        dialog = self._create_dialog()
+
+        await dialog.reply(self.msg, status_code, *args, **kwargs)
+        if status_code >= 300:
+            await dialog.close()
+            return None
+        return dialog
 
 class Application(MutableMapping):
 
@@ -98,37 +126,7 @@ class Application(MutableMapping):
 
         app = self
         call_id = msg.headers['Call-ID']
-
-        # TODO: refactor
-        class Request:
-            def __init__(self):
-                self.app = app
-                self.dialog = None
-
-            def _create_dialog(self, dialog_factory=Dialog, **kwargs):
-                if not self.dialog:
-                    self.dialog = peer._create_dialog(
-                        method=msg.method,
-                        from_details=Contact.from_header(msg.headers['To']),
-                        to_details=Contact.from_header(msg.headers['From']),
-                        call_id=call_id,
-                        inbound=True,
-                        dialog_factory=dialog_factory,
-                        **kwargs
-                    )
-                return self.dialog
-
-            async def prepare(self, status_code, *args, **kwargs):
-                dialog = self._create_dialog()
-
-                await dialog.reply(msg, status_code, *args, **kwargs)
-                if status_code >= 300:
-                    await dialog.close()
-                    return None
-
-                return dialog
-
-        request = Request()
+        request = Request(app, peer, msg, call_id)
         await route(request, msg)
 
     async def _dispatch(self, protocol, msg, addr):
@@ -197,6 +195,7 @@ class Application(MutableMapping):
             # TODO Use a weakref here
             self._tasks.append(t)
             await t
+            self._tasks.remove(t)
         except asyncio.CancelledError:
             pass
         except Exception as e:
