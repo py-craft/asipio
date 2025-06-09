@@ -282,46 +282,45 @@ class Dialog(DialogBase):
             self.cseq = msg.cseq
 
         if isinstance(msg, Response) or msg.method == 'ACK':
-            return self._receive_response(msg)
+            self._receive_response(msg)
         else:
-            return await self._receive_request(msg)
+            await self._receive_request(msg)
 
     async def _receive_request(self, msg):
 
         if 'tag' in msg.to_details['params']:
             try:
-                del self.app._dialogs[
+                self.app._dialogs.pop(
                     frozenset((self.original_msg.to_details['params'].get('tag'),
                                None,
                                self.call_id))
-                ]
+                )
             except KeyError:
                 pass
 
         await self._incoming.put(msg)
-        self._maybe_close(msg)
+        self._maybe_close(msg) # TODO: Seems the issue is here
 
     async def refresh(self, headers=None, expires=1800, *args, **kwargs):
         headers = CIMultiDict(headers or {})
         if 'Expires' not in headers:
             headers['Expires'] = int(expires)
         return await self.request(self.original_msg.method, headers=headers, *args, **kwargs)
-
+    
     async def close(self, headers=None, fast=False, *args, **kwargs):
         if not self._closed:
             self._closed = True
-            result = None
+
             if not fast and not self.inbound and self.original_msg.method in ('REGISTER', 'SUBSCRIBE'):
                 headers = CIMultiDict(headers or {})
                 if 'Expires' not in headers:
                     headers['Expires'] = 0
                 try:
-                    result = await self.request(self.original_msg.method, headers=headers, *args, **kwargs)
+                    await self.request(self.original_msg.method, headers=headers, *args, **kwargs)
                 finally:
                     self._close()
 
             self._close()
-            return result
 
     async def notify(self, *args, headers=None, **kwargs):
         headers = CIMultiDict(headers or {})
